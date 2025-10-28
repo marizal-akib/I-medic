@@ -1,0 +1,319 @@
+---
+description:Here’s a **complete, section-by-section design plan** for your **I-Medic website (Phase 1)** — focused on a clean, modern, mobile-first user experience that feels local, human, and professional.
+This version includes structure, color, layout, and feature notes for your developer or designer.
+
+---
+
+## ⚙️ **Website Structure**
+
+### **Top-Level Pages**
+
+1. Home
+2. Programs
+3. Services
+4. About
+5. Blog
+6. Gallery
+7. Contact
+8. Legal (Privacy + Terms)
+9. Admin (hidden, CMS access)
+
+---
+
+## 🎨 **Brand Design System**
+
+**Style:**
+Soft, medical minimalism — white background, teal primary, calming visuals.
+
+**Colors:**
+
+* Primary: `#00A19A` (Teal – trust & health)
+* Accent: `#8FD3C6` (Mint – light freshness)
+* Secondary: `#4A47A3` (Violet – digital tech touch)
+* Text: `#222222`
+* Background: `#F5F8F9`
+
+**Typography:**
+
+* **Headings:** Poppins / 600 weight
+* **Body:** Inter / 400 weight
+* **Bangla version:** Noto Sans Bengali
+* Line height 1.6 – ample white space for readability.
+
+**Imagery:**
+
+* Real Bangladeshi settings — bright daylight, home atmosphere, clean uniforms.
+* Show compassion + reliability, not medical drama.
+
+**Icon Style:**
+Line icons, flat colors, rounded edges.
+
+---
+
+## 🏠 **Home Page Design Layout**
+
+**Header (Sticky):**
+
+* Left: I-Medic logo
+* Center Nav: Home | Programs | Services | About | Contact
+* Right: WhatsApp button (green), “Call” icon
+
+**Hero Section:**
+
+* Full-width banner image (family with nurse).
+* Headline (bold, large)
+* Short two-line subtext
+* Two CTAs:
+
+  * **Primary:** “Chat on WhatsApp” (teal filled)
+  * **Secondary:** “Call for Assessment” (outlined)
+
+**Trust Icons Row:**
+3 icons (Verified | Partners | Secure Records)
+
+---
+
+### **Section 1 – About I-Medic**
+
+**Layout:** Split – left image, right text.
+
+* Short paragraph + bullet points of “What We Do.”
+* Background : off-white.
+* End with small quote block:
+
+  > “Making healthcare simple and fully connected for every Bangladeshi home.”
+
+---
+
+### **Section 2 – Care Programs Overview**
+
+**Layout:** Three cards horizontally (stack on mobile).
+Each card includes:
+
+* Program name + icon
+* Short summary (3 lines)
+* Key benefits (checklist)
+* Price / Callout
+* CTA: “Chat to Join”
+
+Visual style: soft gradient backgrounds per plan:
+SmartCare – Mint, ActiveCare – Teal, TotalCare – Violet.
+
+---
+
+### **Section 3 – Core Services**
+
+**Header:** “All Our Services Are Part of Your Plan”
+**Subheader:** “Access any service anytime based on your needs and care plan.”
+**Design:**
+Four category tiles in a grid:
+
+1. 🏡 Home & Daily Care
+2. 🏥 Medical Support
+3. 🚑 Hospital & Travel Assistance
+4. 📊 Health Management
+   Each tile: icon, short text, CTA → “View Details.”
+   On hover (desktop) show list of services; on mobile tap to expand.
+
+---
+
+### **Section 4 – How It Works**
+
+**Visual Layout:** 5-step timeline with icons and arrows.
+
+1. Contact Us
+2. Assessment
+3. Care Plan
+4. Start Visits
+5. Track Progress
+   Background: light mint.
+   CTA: “Start Now → WhatsApp.”
+
+---
+
+### **Section 5 – Testimonials**
+
+Carousel slider (auto-scroll).
+Each card: quote, name, small circular photo.
+Background: white with light shadows.
+
+---
+
+### **Section 6 – Blog & Gallery Preview**
+
+Two tabs or columns:
+
+* **Blog:** 3 latest posts (thumbnail + title + “Read More”)
+* **Gallery:** 6 images in a 3×2 grid with lightbox.
+
+---
+
+### **Section 7 – Contact Block**
+
+Full-width banner in teal with white text.
+Left: hotline, WhatsApp, email.
+Right: small form (Name, Phone, Area, Message).
+Submit → opens WhatsApp with prefilled message.
+Footer note: *Available in Dhaka, Chattogram & Sylhet.*
+
+---
+
+### **Footer**
+
+* Logo + short tagline
+* Social icons (Facebook, Instagram, YouTube)
+* Legal links
+* Note: “Not for emergencies — call 999.”
+
+---
+
+## 📋 **Programs Page Layout**
+
+**Hero Banner:** soft background, title “Choose Your Care Plan.”
+**Below:** 3 vertical cards (SmartCare, ActiveCare, TotalCare).
+Each card:
+
+* 1-line summary
+* Features list (5–6 items)
+* “Ideal For” block
+* CTA button
+  Add comparison table at bottom with checkmarks.
+
+Sidebar (desktop): “Need Help Deciding?” WhatsApp quick chat box.
+
+---
+
+## 🏥 **Services Page Layout**
+
+**Top:** Header – “All Services Included in I-Medic Plans.”
+**Below:** Accordion/Expandable Cards grouped under 4 categories.
+
+Each category block:
+
+* Icon + name
+* Short paragraph
+* Expand for full list of services with mini icons.
+  Bottom CTA: “Talk to a Care Coordinator.”
+
+---
+
+## 📖 **About Page Layout**
+
+Two-section story flow:
+
+1. “Why I-Medic Exists” – image left, text right.
+2. “How We Help Families” – text left, image right.
+   Follow with Vision + Mission + Promise.
+   End CTA: “Join I-Medic Today → WhatsApp.”
+
+---
+
+## 📰 **Blog Page**
+
+**Grid Layout:** 3 columns (responsive).
+Thumbnail → Title → Excerpt → “Read More.”
+Single-post page: hero image, article body, share buttons (Facebook | WhatsApp).
+
+---
+
+## 🖼️ **Gallery Page**
+
+Masonry grid 3 columns (mobile → 1).
+Hover caption overlay.
+Filters: Home Care | Hospital | Community | Team.
+Lightbox with left/right navigation.
+
+---
+
+## 📞 **Contact Page**
+
+Two-column layout.
+Left – contact options (hotline, WhatsApp, email, address, map).
+Right – callback form.
+Sticky WhatsApp icon bottom-right.
+
+---
+
+## ⚙️ **Backend / Admin**
+
+**Stack Recommendation:**
+Next.js 14 + Tailwind CSS
+CMS: Sanity Studio at `/admin`
+Database: MongoDB Atlas (for leads)
+Deployment: Vercel
+
+**Admin Capabilities:**
+
+* Manage blog posts, gallery, and service text.
+* View/export leads.
+* Update contact info and hotline.
+* Trigger rebuild on publish.
+
+---
+
+## 🔗 **Integrations**
+
+* **WhatsApp API:** Deep link `wa.me/+8801XXXXXXXXX?text=Hi I-Medic…`
+* **Meta Pixel & GA4:** Track WhatsApp, call, and form clicks.
+* **Google Map Embed:** Office & coverage zones.
+* **Schema Markup:** Organization, Service, BlogPosting.
+
+---
+
+## 🧭 **User Flow Summary**
+
+1. **Visitor lands →** Reads hero + USP.
+2. **Scroll →** Understands services + plans visually.
+3. **Trust builds →** Testimonials + real gallery.
+4. **Decision →** “Chat on WhatsApp” or “Call Now.”
+5. **Lead captured →** WhatsApp + database log.
+6. **Staff follow-up →** On-call or site visit scheduled.
+
+---
+
+## 📱 **Mobile Experience**
+
+* Navigation collapses to hamburger.
+* Floating WhatsApp & Call buttons persist bottom.
+* Cards become vertical scroll.
+* CTA buttons full-width for thumb reach.
+
+---
+
+## 🧩 **Visual Identity Assets Needed**
+
+* Transparent logo (SVG)
+* 10–15 photos (staff, patients, home visits)
+* 3 client testimonials with photo
+* Brand fonts package (Poppins + Inter)
+* Color palette file for Tailwind config
+
+---
+
+## 🗓️ **Launch Sequence**
+
+**Phase 1 (2–3 weeks)**
+
+1. Build Home | Programs | Services | Contact
+2. Integrate WhatsApp deep links
+3. Add Blog + Gallery CMS
+4. QA responsive design
+5. Deploy to Vercel → connect domain
+6. Submit to Google Search Console
+
+**Phase 2 (later)**
+
+* Add Client Portal / Dashboard
+* Add Online Booking & Payments
+* Automate reminder messages from WhatsApp API
+
+---
+
+**Outcome:**
+A smooth, trustworthy, lightweight website that clearly shows I-Medic’s value:
+
+> “Every Bangladeshi family can access complete health and care services through one simple, connected system.”
+
+globs:
+alwaysApply: true
+---
