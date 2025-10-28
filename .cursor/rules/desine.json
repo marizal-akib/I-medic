@@ -1,0 +1,428 @@
+{
+  "meta": {
+    "brand": "I-Medic",
+    "tagline": "We take care of those who you care for.",
+    "inspiration": "apple.com/health visual language",
+    "type_system": ["SF Pro Text", "SF Pro Display", "system-ui", "Helvetica Neue", "Arial"],
+    "accessibility": { "min_touch": "44px", "contrast_target": "WCAG AA+" },
+    "sources": [
+      "Apple Health landing visuals",
+      "Apple HIG: Typography",
+      "Apple HIG: Color",
+      "Apple SF Pro fonts",
+      "Apple link blue reference"
+    ]
+  },
+
+  "tokens": {
+    "colors": {
+      "ink": "#1D1D1F",
+      "inkSecondary": "#6E6E73",
+      "inkTertiary": "#86868B",
+      "bg": "#FFFFFF",
+      "bgAlt": "#F5F5F7",
+      "line": "#D2D2D7",
+      "lineSoft": "#E5E5EA",
+      "primary": "#0071E3",
+      "primaryHover": "#0066CC",
+      "primaryActive": "#0059B2",
+      "link": "#0066CC",
+      "success": "#34C759",
+      "warning": "#FFD60A",
+      "error": "#FF3B30",
+      "elevated": "#FFFFFFFA",
+      "overlay30": "rgba(0,0,0,0.30)",
+      "overlay10": "rgba(0,0,0,0.10)"
+    },
+    "gradients": {
+      "heroSoft": {
+        "type": "linear",
+        "angle": "135deg",
+        "stops": [
+          { "color": "#EAF2FF", "pos": "0%" },
+          { "color": "#F7ECFF", "pos": "50%" },
+          { "color": "#FFEFF1", "pos": "100%" }
+        ]
+      },
+      "ctaGlow": {
+        "type": "radial",
+        "pos": "50% 50%",
+        "stops": [
+          { "color": "rgba(0,113,227,0.20)", "pos": "0%" },
+          { "color": "rgba(0,113,227,0.00)", "pos": "70%" }
+        ]
+      }
+    },
+    "shadows": {
+      "elev1": "0 2px 8px rgba(0,0,0,0.06)",
+      "elev2": "0 8px 24px rgba(0,0,0,0.10)",
+      "elev3": "0 20px 60px rgba(0,0,0,0.12)",
+      "focusRing": "0 0 0 3px rgba(10,132,255,0.35)"
+    },
+    "radius": {
+      "xs": "8px",
+      "sm": "12px",
+      "md": "16px",
+      "lg": "24px",
+      "xl": "32px",
+      "full": "999px"
+    },
+    "typeScale": {
+      "display1": { "size": "56px", "line": 1.05, "weight": 700, "tracking": "-0.02em" },
+      "display2": { "size": "44px", "line": 1.08, "weight": 700, "tracking": "-0.015em" },
+      "h1": { "size": "36px", "line": 1.15, "weight": 700 },
+      "h2": { "size": "28px", "line": 1.20, "weight": 700 },
+      "h3": { "size": "22px", "line": 1.25, "weight": 600 },
+      "body": { "size": "17px", "line": 1.5, "weight": 400 },
+      "subtext": { "size": "15px", "line": 1.5, "weight": 400 },
+      "caption": { "size": "13px", "line": 1.4, "weight": 400 }
+    }
+  },
+
+  "global": {
+    "selectors": ["body", ".im-page"],
+    "background": { "color": "bg" },
+    "text": { "primary": "ink", "secondary": "inkSecondary" },
+    "links": {
+      "selector": "a:not(.btn)",
+      "default": { "color": "link", "underline": "none" },
+      "hover": { "color": "primaryHover", "underline": "underline" },
+      "active": { "color": "primaryActive" },
+      "focus": { "ring": "shadows.focusRing" }
+    }
+  },
+
+  "elementStyling": {
+    "nav": {
+      "selectors": ["header.im-nav", ".globalnav"],
+      "background": { "color": "bg" },
+      "borderBottom": { "color": "lineSoft", "width": "1px" },
+      "link": {
+        "default": { "color": "ink", "weight": 500 },
+        "hover": { "color": "ink", "opacity": 0.75 },
+        "active": { "color": "ink" },
+        "focus": { "ring": "shadows.focusRing" }
+      },
+      "icons": { "fill": "ink", "container": "transparent", "bg": "none" }
+    },
+
+    "hero": {
+      "selectors": [".im-hero"],
+      "background": { "gradient": "gradients.heroSoft" },
+      "contentMaxWidth": "1040px",
+      "heading": { "color": "ink", "type": "typeScale.display1" },
+      "subheading": { "color": "inkSecondary", "type": "typeScale.h3" },
+      "ctaWrapOverlay": { "gradient": "gradients.ctaGlow" },
+      "rules": {
+        "do_not": [
+          "No solid primary fill on hero container.",
+          "No inner text shadows."
+        ]
+      }
+    },
+
+    "sectionAlt": {
+      "selectors": [".im-section--alt"],
+      "background": { "color": "bgAlt" },
+      "dividerTop": { "color": "lineSoft", "width": "1px" }
+    },
+
+    "cards": {
+      "selectors": [".im-card", ".im-grid-card"],
+      "container": {
+        "background": { "color": "bg" },
+        "border": { "color": "line", "width": "1px" },
+        "radius": "radius.lg",
+        "shadow": "shadows.elev1",
+        "padding": "24px"
+      },
+      "content": {
+        "title": { "color": "ink", "type": "typeScale.h3" },
+        "body": { "color": "inkSecondary", "type": "typeScale.body" }
+      },
+      "icons": {
+        "fill": "ink",
+        "container": "transparent",
+        "background": "none",
+        "size": "24px"
+      },
+      "states": {
+        "hover": {
+          "shadow": "shadows.elev2",
+          "border": { "color": "lineSoft" },
+          "translateY": "-2px",
+          "transition": "transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease"
+        },
+        "active": { "shadow": "shadows.elev1", "translateY": "0" },
+        "focus": { "ring": "shadows.focusRing" }
+      },
+      "rules": {
+        "gradient_usage": "No gradients on card backgrounds; gradients allowed in media slots only.",
+        "do_not": [
+          "Do not tint card icons with primary unless the icon is interactive.",
+          "Do not apply shadows to inner text blocks."
+        ]
+      }
+    },
+
+    "buttons": {
+      "selectors": [".btn", "a.im-btn", "button.im-btn"],
+      "primary": {
+        "background": { "color": "primary" },
+        "text": { "color": "bg" },
+        "icon": { "fill": "bg" },
+        "border": { "color": "transparent", "width": "0" },
+        "radius": "radius.full",
+        "shadow": "none",
+        "states": {
+          "hover": { "background": { "color": "primaryHover" } },
+          "active": { "background": { "color": "primaryActive" } },
+          "disabled": { "background": { "color": "#7FB7EA" }, "text": { "color": "#FFFFFFCC" }, "opacity": 0.65 },
+          "focus": { "ring": "shadows.focusRing" }
+        }
+      },
+      "secondary": {
+        "background": { "color": "bg" },
+        "text": { "color": "ink" },
+        "icon": { "fill": "ink" },
+        "border": { "color": "line", "width": "1px" },
+        "radius": "radius.full",
+        "shadow": "none",
+        "states": {
+          "hover": { "background": { "color": "bgAlt" } },
+          "active": { "background": { "color": "#EBEBEF" } },
+          "disabled": { "text": { "color": "inkTertiary" }, "border": { "color": "lineSoft" } },
+          "focus": { "ring": "shadows.focusRing" }
+        }
+      },
+      "link": {
+        "background": { "color": "transparent" },
+        "text": { "color": "link" },
+        "icon": { "fill": "link" },
+        "states": {
+          "hover": { "text": { "color": "primaryHover", "decoration": "underline" } },
+          "active": { "text": { "color": "primaryActive" } },
+          "focus": { "ring": "shadows.focusRing" }
+        }
+      },
+      "rules": {
+        "do_not": [
+          "Do not place gradient fills directly on .btn; use .btn-glow::before with gradients.ctaGlow for decorative glow.",
+          "Do not use primary blue for non-interactive text."
+        ]
+      }
+    },
+
+    "lists": {
+      "selectors": [".im-feature-list"],
+      "item": {
+        "bulletIcon": { "fill": "ink" },
+        "text": { "primary": "ink", "secondary": "inkSecondary" },
+        "divider": { "color": "lineSoft" }
+      }
+    },
+
+    "badges": {
+      "selectors": [".im-badge", ".im-pill"],
+      "container": {
+        "background": { "color": "#F0F0F5" },
+        "text": { "color": "ink" },
+        "radius": "radius.full",
+        "padding": "6px 12px"
+      },
+      "inverse": { "background": { "color": "#1C1C1E" }, "text": { "color": "bg" } }
+    },
+
+    "forms": {
+      "selectors": ["input.im-field", "select.im-field", "textarea.im-field"],
+      "field": {
+        "background": { "color": "bg" },
+        "text": { "color": "ink" },
+        "placeholder": { "color": "#9A9AA1" },
+        "border": { "color": "lineSoft", "width": "1px" },
+        "radius": "radius.sm",
+        "shadow": "none",
+        "states": {
+          "hover": { "border": { "color": "#C7C7CC" } },
+          "focus": { "border": { "color": "link" }, "ring": "shadows.focusRing" },
+          "disabled": { "background": { "color": "#FAFAFC" }, "text": { "color": "inkTertiary" } },
+          "error": { "border": { "color": "error" } }
+        }
+      },
+      "label": { "color": "ink", "size": "15px", "weight": 500 },
+      "helper": { "color": "inkSecondary" }
+    }
+  },
+
+  "pageContexts": {
+    "home": {
+      "selectors": [".im-home"],
+      "hero": { "selectors": [".im-hero"], "ctaButtons": [".btn.im-cta-primary", ".btn.im-cta-secondary"] },
+      "benefits": { "selectors": [".im-why .im-card"] }
+    },
+    "why": {
+      "selectors": [".im-why"],
+      "icons": { "fill": "ink", "container": "transparent", "background": "none" }
+    },
+    "services": {
+      "selectors": [".im-services"],
+      "serviceCard": {
+        "selectors": [".im-service-card"],
+        "background": "bg",
+        "border": "line",
+        "iconFill": "ink",
+        "titleColor": "ink",
+        "bodyColor": "inkSecondary"
+      }
+    },
+    "programs": {
+      "selectors": [".im-programs"],
+      "pricingCard": {
+        "selectors": [".im-pricing-card"],
+        "background": "bg",
+        "border": "line",
+        "shadow": "shadows.elev1",
+        "radius": "radius.lg",
+        "planBadge": { "bg": "bgAlt", "text": "ink" },
+        "cta": { "type": "primary" }
+      }
+    },
+    "payPerUse": {
+      "selectors": [".im-ppu"],
+      "table": {
+        "headerBg": "bgAlt",
+        "rowBg": "bg",
+        "border": "lineSoft",
+        "hoverRowBg": "#F8F8FA"
+      }
+    },
+    "howItWorks": {
+      "selectors": [".im-flow"],
+      "stepCard": { "bg": "bg", "border": "lineSoft", "iconFill": "ink" }
+    },
+    "sla": {
+      "selectors": [".im-sla"],
+      "kpiCard": { "bg": "bg", "border": "line", "title": "ink", "value": "ink" }
+    },
+    "patientDashboard": {
+      "selectors": [".im-patient"],
+      "panel": { "bg": "elevated", "border": "lineSoft", "shadow": "shadows.elev2", "radius": "radius.md" },
+      "statusGood": { "color": "success" },
+      "statusWarn": { "color": "warning" },
+      "statusBad": { "color": "error" }
+    },
+    "contact": {
+      "selectors": [".im-contact"],
+      "form": { "field": ".im-field", "button": ".btn.im-cta-primary" }
+    },
+    "backend": {
+      "selectors": [".im-admin"],
+      "nav": { "bg": "bg", "border": "lineSoft" },
+      "table": { "headerBg": "bgAlt", "rowBg": "bg", "border": "lineSoft" },
+      "chip": { "bg": "#F0F0F5", "text": "ink" }
+    }
+  },
+
+  "componentStates": {
+    "card": {
+      "default": { "bg": "bg", "border": "line", "shadow": "shadows.elev1" },
+      "hover": { "shadow": "shadows.elev2", "border": "lineSoft" },
+      "active": { "shadow": "shadows.elev1" },
+      "disabled": { "opacity": 0.6 },
+      "focus": { "ring": "shadows.focusRing" }
+    },
+    "buttonPrimary": {
+      "default": { "bg": "primary", "text": "bg" },
+      "hover": { "bg": "primaryHover" },
+      "active": { "bg": "primaryActive" },
+      "disabled": { "bg": "#7FB7EA", "text": "#FFFFFFCC" },
+      "focus": { "ring": "shadows.focusRing" }
+    },
+    "buttonSecondary": {
+      "default": { "bg": "bg", "text": "ink", "border": "line" },
+      "hover": { "bg": "bgAlt" },
+      "active": { "bg": "#EBEBEF" },
+      "disabled": { "text": "inkTertiary", "border": "lineSoft" },
+      "focus": { "ring": "shadows.focusRing" }
+    },
+    "input": {
+      "default": { "bg": "bg", "border": "lineSoft", "text": "ink" },
+      "hover": { "border": "#C7C7CC" },
+      "focus": { "border": "link", "ring": "shadows.focusRing" },
+      "disabled": { "bg": "#FAFAFC", "text": "inkTertiary" },
+      "error": { "border": "error" }
+    },
+    "icon": {
+      "default": { "fill": "ink" },
+      "action": { "fill": "primary" },
+      "statusSuccess": { "fill": "success" },
+      "statusWarning": { "fill": "warning" },
+      "statusError": { "fill": "error" }
+    }
+  },
+
+  "charts": {
+    "selectors": [".im-chart"],
+    "background": { "color": "bg" },
+    "grid": { "color": "lineSoft", "opacity": 0.6 },
+    "axis": { "label": "inkSecondary", "line": "lineSoft" },
+    "series": { "primary": "#0071E3", "secondary": "#34C759", "tertiary": "#FF2D55" },
+    "tooltip": { "bg": "#1C1C1E", "text": "#FFFFFF", "radius": "radius.xs", "shadow": "shadows.elev2" }
+  },
+
+  "typography": {
+    "selectors": {
+      "h1": [".im-hero h1", ".im-section h1"],
+      "h2": [".im-section h2"],
+      "h3": [".im-card h3", ".im-pricing-card h3"],
+      "body": [".im-section p", ".im-card p", ".im-table td"],
+      "muted": [".im-muted", ".im-subtext"]
+    },
+    "mapping": {
+      "h1": { "type": "typeScale.h1", "color": "ink" },
+      "h2": { "type": "typeScale.h2", "color": "ink" },
+      "h3": { "type": "typeScale.h3", "color": "ink" },
+      "body": { "type": "typeScale.body", "color": "ink" },
+      "muted": { "type": "typeScale.subtext", "color": "inkSecondary" }
+    }
+  },
+
+  "effectsPlacement": {
+    "shadows_on": [".im-card", ".im-pricing-card", ".im-popover", ".im-modal"],
+    "gradients_on": [".im-hero", ".im-hero .im-media-bg", ".btn-glow::before"],
+    "borders_on": [".im-card", ".im-table th", ".im-table td", "header.im-nav", "footer.im-footer"],
+    "radius_on": [".im-card", ".im-badge", ".im-field", ".im-pricing-card", ".im-tab"]
+  },
+
+  "contrastRules": {
+    "ink_on_bg": ">= 12:1",
+    "inkSecondary_on_bg": ">= 7:1",
+    "inverse_on_dark": ">= 7:1",
+    "button_text_on_primary": ">= 7:1"
+  },
+
+  "do_not": [
+    "Do NOT apply hero gradients to icons or badges.",
+    "Do NOT use primary or link blue for body copy.",
+    "Do NOT place shadows on text nodes; shadows only on containers.",
+    "Do NOT round inner content beyond the parent container radius.",
+    "Do NOT reuse button colors for table text or form labels.",
+    "Do NOT use hover states on touch-only views.",
+    "Do NOT color status icons with gradients; use solid status colors."
+  },
+
+  "implementationHints": {
+    "selectorsScope": "BEM-style .im-* or Tailwind component layer mapped to these contexts.",
+    "fonts": "Use SF Pro where licensed; otherwise system-ui stack.",
+    "heroGradientArea": "Apply to .im-hero container background only; not to .im-card or .btn.",
+    "iconColoring": "Default ink; only action or link icons use primary/link colors."
+  },
+
+  "citations": [
+    "Apple Health page structure and visual tone.",
+    "Apple HIG Typography guidance.",
+    "Apple HIG Color guidance.",
+    "SF Pro font family reference.",
+    "Apple link blue reference #0066CC."
+  ]
+}

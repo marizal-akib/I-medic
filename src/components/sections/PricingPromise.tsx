@@ -1,41 +1,46 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { CheckCircleIcon } from '@heroicons/react/24/solid'
+import { ReceiptPercentIcon } from '@heroicons/react/24/outline'
 
-const content = [
-  "Line-item bills: membership, visit time, add-ons, travel, labs (receipt), medicines (bill), small logistics fee",
-  "No hidden extras"
-]
+const promises = [
+  "Clear line-item bills: membership, visit time, lab, travel, and medicine.",
+  "Official receipts for all third-party services.",
+  "No hidden charges or unnecessary tests — ever."
+];
 
 export default function PricingPromise() {
   return (
-    <section id="promise" className="py-20 sm:py-28 bg-brand-soft">
+    <section id="promise" className="py-20 sm:py-28 bg-white">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="mx-auto max-w-2xl text-center">
+        <motion.div 
+          className="mx-auto max-w-3xl text-center"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.5 }}
+          transition={{ duration: 0.6 }}
+        >
+          <div className="flex justify-center mb-4">
+            <ReceiptPercentIcon className="h-12 w-12 text-teal-600" />
+          </div>
           <h2 className="text-3xl font-bold tracking-tight text-brand-ink sm:text-4xl font-display">
-            Pricing promise
+            Transparent Pricing & Promise
           </h2>
-        </div>
-        <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl">
-          <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-10 lg:max-w-none lg:grid-cols-2 lg:gap-y-16">
-            {content.map((item) => (
-              <motion.div 
-                key={item} 
-                className="relative pl-9"
+          <div className="mt-8 space-y-4">
+            {promises.map((promise, index) => (
+              <motion.p 
+                key={promise} 
+                className="text-lg text-brand-ink80"
                 initial={{ opacity: 0, y: 10 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5 }}
+                viewport={{ once: true, amount: 0.8 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
               >
-                <dt className="inline font-semibold text-brand-ink">
-                  <CheckCircleIcon className="absolute left-1 top-1 h-5 w-5 text-brand" aria-hidden="true" />
-                  {item}
-                </dt>
-              </motion.div>
+                {promise}
+              </motion.p>
             ))}
-          </dl>
-        </div>
+          </div>
+        </motion.div>
       </div>
     </section>
   )

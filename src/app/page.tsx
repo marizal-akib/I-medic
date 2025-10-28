@@ -5,7 +5,6 @@ import Plans from '@/components/sections/Plans'
 import PayPerUse from '@/components/sections/PayPerUse'
 import HouseholdCover from '@/components/sections/HouseholdCover'
 import HowItWorks from '@/components/sections/how-it-works'
-import Zones from '@/components/sections/Zones'
 import PricingPromise from '@/components/sections/PricingPromise'
 import SLAs from '@/components/sections/SLAs'
 import Contact from '@/components/sections/contact'
@@ -20,7 +19,6 @@ export default function Home() {
       <PayPerUse />
       <HouseholdCover />
       <HowItWorks />
-      <Zones />
       <PricingPromise />
       <SLAs />
       <Contact />

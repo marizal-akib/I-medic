@@ -20,7 +20,7 @@ const stagger = {
 
 export default function Hero() {
   return (
-    <section className="bg-brand-soft py-20 sm:py-28">
+    <section className="bg-brand-soft pt-28 sm:pt-36 pb-20 sm:pb-28">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <motion.div 
           className="mx-auto max-w-2xl text-center"
@@ -32,31 +32,26 @@ export default function Hero() {
             className="text-4xl font-bold tracking-tight text-brand-ink sm:text-6xl font-display"
             variants={fadeInUp}
           >
-            Smart home care + health record for your family
+            We take care of those who you care for.
           </motion.h1>
           <motion.p 
             className="mt-6 text-lg leading-8 text-brand-ink80"
             variants={fadeInUp}
           >
-            We organise your medical history, run only needed tests, and send nurses or assistants to your home in Khulna & Bagerhat.
+            I-Medic makes family healthcare simple — from digital health records to home visits, medication management, and continuous monitoring. We bridge medical support and human care with compassion and technology.
           </motion.p>
           <motion.div 
             className="mt-10 flex items-center justify-center gap-x-6"
             variants={fadeInUp}
           >
             <Button size="lg" asChild>
-              <Link href="https://wa.me/880XXXXXXXXXX">
-                WhatsApp Book Now
+              <Link href="https://wa.me/8801234567890" target="_blank">
+                Contact on WhatsApp
               </Link>
             </Button>
-            <Button size="lg" variant="secondary" asChild>
-              <Link href="tel:+880XXXXXXXXXX">
-                Call
-              </Link>
-            </Button>
-            <Button size="lg" variant="ghost" asChild>
-              <Link href="#plans">
-                Learn Plans
+            <Button size="lg" variant="outline" asChild>
+              <Link href="/programs">
+                View Care Programs
               </Link>
             </Button>
           </motion.div>

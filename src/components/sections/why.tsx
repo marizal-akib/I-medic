@@ -1,14 +1,40 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { CheckCircleIcon } from '@heroicons/react/24/solid'
+import {
+  DevicePhoneMobileIcon,
+  DocumentTextIcon,
+  HeartIcon,
+  HomeModernIcon,
+  BeakerIcon,
+  BellAlertIcon
+} from '@heroicons/react/24/outline'
 
-const items = [
-  "One shared health file for your household",
-  "Only pay for what you use",
-  "Home tests and home visits",
-  "Hospital booking + medicine delivery",
-  "Weekly/monthly updates to your phone"
+const benefits = [
+  {
+    name: 'One secure health record shared among your family.',
+    icon: DocumentTextIcon,
+  },
+  {
+    name: 'Only pay for what you use — flexible and transparent pricing.',
+    icon: HeartIcon,
+  },
+  {
+    name: 'Personalized care plans designed by medical professionals.',
+    icon: HomeModernIcon,
+  },
+  {
+    name: 'Trained carers, nurses, and phlebotomists who visit your home.',
+    icon: BeakerIcon,
+  },
+  {
+    name: 'We organize your tests, track your recovery, and remind you about follow-ups.',
+    icon: BellAlertIcon,
+  },
+  {
+    name: '24/7 access to your care updates through WhatsApp.',
+    icon: DevicePhoneMobileIcon,
+  },
 ]
 
 const stagger = {
@@ -27,17 +53,17 @@ const fadeInUp = {
 
 export default function Why() {
   return (
-    <section id="why" className="py-20 sm:py-28">
+    <section id="why" className="py-20 sm:py-28 bg-gray-50">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <motion.div 
-          className="mx-auto max-w-2xl lg:text-center"
+          className="mx-auto max-w-3xl lg:text-center"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.6 }}
         >
           <h2 className="text-3xl font-bold tracking-tight text-brand-ink sm:text-4xl font-display">
-            Why I-Medic
+            Because health deserves to be cared for, not just treated.
           </h2>
         </motion.div>
         <motion.div 
@@ -48,11 +74,13 @@ export default function Why() {
           viewport={{ once: true, amount: 0.2 }}
         >
           <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-10 lg:max-w-none lg:grid-cols-2 lg:gap-y-16">
-            {items.map((item) => (
-              <motion.div key={item} className="relative pl-9" variants={fadeInUp}>
-                <dt className="inline font-semibold text-brand-ink">
-                  <CheckCircleIcon className="absolute left-1 top-1 h-5 w-5 text-brand" aria-hidden="true" />
-                  {item}
+            {benefits.map((benefit) => (
+              <motion.div key={benefit.name} className="relative pl-12" variants={fadeInUp}>
+                <dt className="inline font-semibold text-lg text-brand-ink">
+                  <div className="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-lg bg-teal-500">
+                    <benefit.icon className="h-6 w-6 text-white" aria-hidden="true" />
+                  </div>
+                  {benefit.name}
                 </dt>
               </motion.div>
             ))}

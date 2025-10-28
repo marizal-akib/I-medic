@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
-import { DocumentTextIcon, ScaleIcon, HandshakeIcon, ExclamationTriangleIcon } from '@heroicons/react/24/outline'
+import { DocumentTextIcon, ScaleIcon, HandRaisedIcon, ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 
 export const metadata: Metadata = {
   title: 'Terms of Service - I-Medic Healthcare',
@@ -41,7 +41,7 @@ export default function TermsPage() {
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
             <div className="bg-white/70 backdrop-blur-sm rounded-xl p-4 sm:p-6 shadow-lg text-center">
-              <HandshakeIcon className="h-8 w-8 text-teal-600 mx-auto mb-3" />
+              <HandRaisedIcon className="h-8 w-8 text-teal-600 mx-auto mb-3" />
               <h3 className="font-semibold text-gray-900 mb-2">Fair Agreement</h3>
               <p className="text-sm text-gray-600">Clear terms for both parties</p>
             </div>

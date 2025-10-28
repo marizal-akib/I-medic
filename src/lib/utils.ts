@@ -74,3 +74,4 @@ export const container = "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
 
 // Section spacing
 export const section = "py-16 md:py-24"
+

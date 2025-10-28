@@ -1,319 +1,206 @@
----
-description:Here’s a **complete, section-by-section design plan** for your **I-Medic website (Phase 1)** — focused on a clean, modern, mobile-first user experience that feels local, human, and professional.
-This version includes structure, color, layout, and feature notes for your developer or designer.
+Here’s the **updated full design rules** for **I-Medic Web**, revised to reflect a **more vibrant Apple Health–style feel** — with stronger red and blue gradients, soft minimal backgrounds, and Korean design calmness.
+This version merges *Apple’s emotional vividness* with *I-Medic’s caring tone* and *medical clarity*.
 
 ---
 
-## ⚙️ **Website Structure**
+# **Design Rules — I-Medic Web (Vivid Calm Edition)**
 
-### **Top-Level Pages**
+## 🌈 Brand + Color (Apple-Inspired Vibrant Korean Palette)
 
-1. Home
-2. Programs
-3. Services
-4. About
-5. Blog
-6. Gallery
-7. Contact
-8. Legal (Privacy + Terms)
-9. Admin (hidden, CMS access)
+**Concept:** Calm base, vivid emotion — inspired by Apple’s health visuals.
+Use color to express life, trust, and warmth. Maintain balance: **75 % neutral / 20 % vivid / 5 % accent.**
 
----
+### 🎨 Color Tokens
 
-## 🎨 **Brand Design System**
+| Role            | Hex       | Usage                                             |
+| --------------- | --------- | ------------------------------------------------- |
+| **Brand Blue**  | `#007AFF` | Main CTAs, hero background, trusted elements      |
+| **Brand Dark**  | `#0047B2` | Hover / strong text accents                       |
+| **Bright Red**  | `#FF3B30` | Highlights for vitality, alert, or emotional tone |
+| **Coral Warm**  | `#FF6B6B` | Human, caring sections or hover gradients         |
+| **Sky Light**   | `#EAF3FF` | Section backgrounds, dividers                     |
+| **Mint Calm**   | `#6EE7B7` | Healing / recovery sections                       |
+| **Butter Soft** | `#FFF4CE` | Wellness, comfort backgrounds                     |
+| **Ink Text**    | `#0F172A` | Body text                                         |
+| **Ink-Muted**   | `#1E293B` | Subtext                                           |
+| **Line**        | `#E5E7EB` | Borders                                           |
+| **Soft Base**   | `#FAFBFF` | Default page background                           |
 
-**Style:**
-Soft, medical minimalism — white background, teal primary, calming visuals.
+> **Tip:** Never combine bright red and blue in the same component. Use one vivid per section.
+> Max 2 accent hues visible per viewport.
 
-**Colors:**
+### ✨ Gradient Presets
 
-* Primary: `#00A19A` (Teal – trust & health)
-* Accent: `#8FD3C6` (Mint – light freshness)
-* Secondary: `#4A47A3` (Violet – digital tech touch)
-* Text: `#222222`
-* Background: `#F5F8F9`
-
-**Typography:**
-
-* **Headings:** Poppins / 600 weight
-* **Body:** Inter / 400 weight
-* **Bangla version:** Noto Sans Bengali
-* Line height 1.6 – ample white space for readability.
-
-**Imagery:**
-
-* Real Bangladeshi settings — bright daylight, home atmosphere, clean uniforms.
-* Show compassion + reliability, not medical drama.
-
-**Icon Style:**
-Line icons, flat colors, rounded edges.
+* **Hero Gradient:** `linear-gradient(180deg, #4DA3FF 0%, #007AFF 100%)`
+* **Care Section:** `linear-gradient(180deg, #FFE6E6 0%, #FFFFFF 100%)`
+* **Wellness Section:** `linear-gradient(180deg, #E9F3FF 0%, #FFFFFF 100%)`
+* **Companion Section:** `linear-gradient(180deg, #E6FFF7 0%, #FFFFFF 100%)`
 
 ---
 
-## 🏠 **Home Page Design Layout**
+## 🔠 Typography + Spacing
 
-**Header (Sticky):**
+* Display: **Pretendard / Inter**
+* Body: **Inter Regular**
+* Type scale (rem): `3.0, 2.25, 1.75, 1.5, 1.25, 1.125, 1.0, 0.875`
+* Line height: headings `1.2`, body `1.6`
+* Max text width: `80ch`
+* Spacing: `4, 8, 12, 16, 24, 32, 48, 64 px`
+* Card radius: `16px`
+* Shadows: soft & shallow (`rgba(0,0,0,0.05)`)
 
-* Left: I-Medic logo
-* Center Nav: Home | Programs | Services | About | Contact
-* Right: WhatsApp button (green), “Call” icon
-
-**Hero Section:**
-
-* Full-width banner image (family with nurse).
-* Headline (bold, large)
-* Short two-line subtext
-* Two CTAs:
-
-  * **Primary:** “Chat on WhatsApp” (teal filled)
-  * **Secondary:** “Call for Assessment” (outlined)
-
-**Trust Icons Row:**
-3 icons (Verified | Partners | Secure Records)
+> Typography should feel calm, wide, and readable — Apple style: generous padding, minimal contrast shifts.
 
 ---
 
-### **Section 1 – About I-Medic**
+## 📐 Layout Grid
 
-**Layout:** Split – left image, right text.
-
-* Short paragraph + bullet points of “What We Do.”
-* Background : off-white.
-* End with small quote block:
-
-  > “Making healthcare simple and fully connected for every Bangladeshi home.”
+* Container: `mx-auto max-w-[1200px] px-4 md:px-6 lg:px-8`
+* Columns: ≥1024px → 12-col grid, 768–1023px → 6-col, <768px → 1-col
+* Section padding: `py-12 md:py-16`
+* Alternate section colors for rhythm (white → soft blue → white → light coral tint)
 
 ---
 
-### **Section 2 – Care Programs Overview**
+## 🎞 Motion (Smooth & Emotional)
 
-**Layout:** Three cards horizontally (stack on mobile).
-Each card includes:
+* Library: **Framer Motion**
+* Defaults: duration `0.5s`, easeOut
+* Patterns:
 
-* Program name + icon
-* Short summary (3 lines)
-* Key benefits (checklist)
-* Price / Callout
-* CTA: “Chat to Join”
-
-Visual style: soft gradient backgrounds per plan:
-SmartCare – Mint, ActiveCare – Teal, TotalCare – Violet.
-
----
-
-### **Section 3 – Core Services**
-
-**Header:** “All Our Services Are Part of Your Plan”
-**Subheader:** “Access any service anytime based on your needs and care plan.”
-**Design:**
-Four category tiles in a grid:
-
-1. 🏡 Home & Daily Care
-2. 🏥 Medical Support
-3. 🚑 Hospital & Travel Assistance
-4. 📊 Health Management
-   Each tile: icon, short text, CTA → “View Details.”
-   On hover (desktop) show list of services; on mobile tap to expand.
+  * Fade-in-up for headers and titles
+  * Section reveal with gradient slide
+  * Cards lift 2–3px on hover
+  * CTA buttons scale `1.03` on hover, `0.98` on tap
+* Use **soft gradient overlays** to echo Apple Health’s depth
+* No parallax or infinite looping animations
 
 ---
 
-### **Section 4 – How It Works**
+## 🧩 Components
 
-**Visual Layout:** 5-step timeline with icons and arrows.
+Use **ShadCN/UI** for structure, but keep visuals minimal and human.
 
-1. Contact Us
-2. Assessment
-3. Care Plan
-4. Start Visits
-5. Track Progress
-   Background: light mint.
-   CTA: “Start Now → WhatsApp.”
+### Buttons
 
----
+| Variant       | Style                                                  |
+| ------------- | ------------------------------------------------------ |
+| **Primary**   | `bg-brand text-white hover:bg-brand-dark`              |
+| **Secondary** | `bg-white border border-brand text-brand hover:bg-sky` |
+| **Accent**    | `bg-[#FF3B30] text-white hover:bg-[#FF6B6B]`           |
+| **Ghost**     | Transparent, underline on hover                        |
 
-### **Section 5 – Testimonials**
+### Cards
 
-Carousel slider (auto-scroll).
-Each card: quote, name, small circular photo.
-Background: white with light shadows.
+* White or soft background
+* Rounded corners (`rounded-xl`)
+* Subtle shadow (`shadow-[0_2px_10px_rgba(0,0,0,0.05)]`)
+* On hover → lift + subtle glow using brand.light
 
----
+### Forms
 
-### **Section 6 – Blog & Gallery Preview**
-
-Two tabs or columns:
-
-* **Blog:** 3 latest posts (thumbnail + title + “Read More”)
-* **Gallery:** 6 images in a 3×2 grid with lightbox.
+* Clear, labeled fields
+* Brand blue focus ring
+* Coral/red for error text
 
 ---
 
-### **Section 7 – Contact Block**
+## 🧭 Navigation Workflow
 
-Full-width banner in teal with white text.
-Left: hotline, WhatsApp, email.
-Right: small form (Name, Phone, Area, Message).
-Submit → opens WhatsApp with prefilled message.
-Footer note: *Available in Dhaka, Chattogram & Sylhet.*
-
----
-
-### **Footer**
-
-* Logo + short tagline
-* Social icons (Facebook, Instagram, YouTube)
-* Legal links
-* Note: “Not for emergencies — call 999.”
+* Sticky header — logo left, center links: **Services, Programs, Pricing, How, Contact**
+* Right side: **EN | BN**, WhatsApp CTA
+* Mobile → hamburger → slide Sheet
+* Smooth scroll with `scroll-margin-top: 80px`
+* Active link underline in brand blue
+* Floating WhatsApp icon bottom-right (mobile)
 
 ---
 
-## 📋 **Programs Page Layout**
+## 📱 Responsiveness
 
-**Hero Banner:** soft background, title “Choose Your Care Plan.”
-**Below:** 3 vertical cards (SmartCare, ActiveCare, TotalCare).
-Each card:
+* Breakpoints: `sm 640`, `md 768`, `lg 1024`, `xl 1280`
+* Test widths: 360×800, 390×844, 414×896, 768×1024, 1366×768, 1440×900, 1920×1080
+* Rules:
 
-* 1-line summary
-* Features list (5–6 items)
-* “Ideal For” block
-* CTA button
-  Add comparison table at bottom with checkmarks.
-
-Sidebar (desktop): “Need Help Deciding?” WhatsApp quick chat box.
+  * Hero illustration hides <768px
+  * Text lines ≤2 on small devices
+  * 1–2–3 column progressive layout
+  * Buttons wrap without overflow
+  * Images stack with fade transitions
 
 ---
 
-## 🏥 **Services Page Layout**
+## ♿ Accessibility
 
-**Top:** Header – “All Services Included in I-Medic Plans.”
-**Below:** Accordion/Expandable Cards grouped under 4 categories.
-
-Each category block:
-
-* Icon + name
-* Short paragraph
-* Expand for full list of services with mini icons.
-  Bottom CTA: “Talk to a Care Coordinator.”
+* Contrast: 4.5 : 1 (body), 3 : 1 (large text)
+* Visible focus ring (`outline-brand`)
+* Touch targets ≥ 44×44 px
+* Keyboard accessible navigation + FAQ accordion
+* `aria-label` for WhatsApp & Call CTAs
 
 ---
 
-## 📖 **About Page Layout**
+## ✍️ Content Style
 
-Two-section story flow:
-
-1. “Why I-Medic Exists” – image left, text right.
-2. “How We Help Families” – text left, image right.
-   Follow with Vision + Mission + Promise.
-   End CTA: “Join I-Medic Today → WhatsApp.”
+* Simple, clear, reassuring tone.
+* Emphasize benefits first: *"Organized health data. Reliable home care. Transparent pricing."*
+* Lists > long paragraphs
+* Use numeric prices (BDT). Avoid hidden fees or jargon.
 
 ---
 
-## 📰 **Blog Page**
+## ⚙️ Performance
 
-**Grid Layout:** 3 columns (responsive).
-Thumbnail → Title → Excerpt → “Read More.”
-Single-post page: hero image, article body, share buttons (Facebook | WhatsApp).
-
----
-
-## 🖼️ **Gallery Page**
-
-Masonry grid 3 columns (mobile → 1).
-Hover caption overlay.
-Filters: Home Care | Hospital | Community | Team.
-Lightbox with left/right navigation.
+* Lighthouse: Performance ≥ 90, Accessibility ≥ 95
+* JS budget ≤ 170 KB gzip/page
+* Use `next/image` with lazy loading
+* Preload only essential fonts
+* Avoid Lottie/video above fold
+* Gradient hero replaces heavy media
 
 ---
 
-## 📞 **Contact Page**
+## 🌐 i18n
 
-Two-column layout.
-Left – contact options (hotline, WhatsApp, email, address, map).
-Right – callback form.
-Sticky WhatsApp icon bottom-right.
-
----
-
-## ⚙️ **Backend / Admin**
-
-**Stack Recommendation:**
-Next.js 14 + Tailwind CSS
-CMS: Sanity Studio at `/admin`
-Database: MongoDB Atlas (for leads)
-Deployment: Vercel
-
-**Admin Capabilities:**
-
-* Manage blog posts, gallery, and service text.
-* View/export leads.
-* Update contact info and hotline.
-* Trigger rebuild on publish.
+* Strings via `t()`.
+* English default, Bangla mirror keys (values can remain English for now).
+* Prices always numeric (Latin digits).
 
 ---
 
-## 🔗 **Integrations**
+## ✅ QA Checklist
 
-* **WhatsApp API:** Deep link `wa.me/+8801XXXXXXXXX?text=Hi I-Medic…`
-* **Meta Pixel & GA4:** Track WhatsApp, call, and form clicks.
-* **Google Map Embed:** Office & coverage zones.
-* **Schema Markup:** Organization, Service, BlogPosting.
-
----
-
-## 🧭 **User Flow Summary**
-
-1. **Visitor lands →** Reads hero + USP.
-2. **Scroll →** Understands services + plans visually.
-3. **Trust builds →** Testimonials + real gallery.
-4. **Decision →** “Chat on WhatsApp” or “Call Now.”
-5. **Lead captured →** WhatsApp + database log.
-6. **Staff follow-up →** On-call or site visit scheduled.
+* Navigation anchors scroll correctly on all devices
+* WhatsApp/Call CTAs open correct links
+* Plan prices consistent in both languages
+* FAQ accordion accessible via keyboard
+* Zero layout shift
+* No console warnings
+* No content overflow at any size
 
 ---
 
-## 📱 **Mobile Experience**
+## 🎨 Tailwind Tokens (add once)
 
-* Navigation collapses to hamburger.
-* Floating WhatsApp & Call buttons persist bottom.
-* Cards become vertical scroll.
-* CTA buttons full-width for thumb reach.
-
----
-
-## 🧩 **Visual Identity Assets Needed**
-
-* Transparent logo (SVG)
-* 10–15 photos (staff, patients, home visits)
-* 3 client testimonials with photo
-* Brand fonts package (Poppins + Inter)
-* Color palette file for Tailwind config
+```ts
+colors: {
+  brand: { DEFAULT:'#007AFF', dark:'#0047B2', light:'#4DA3FF', sky:'#EAF3FF' },
+  accent: { red:'#FF3B30', coral:'#FF6B6B', mint:'#6EE7B7', butter:'#FFF4CE' },
+  ink:'#0F172A', ink80:'#334155', line:'#E5E7EB', soft:'#FAFBFF'
+},
+shadows: { 'k-soft':'0 2px 8px rgba(0,0,0,0.05)', 'k-card':'0 4px 14px rgba(0,0,0,0.08)' },
+radius: { 'xl2':'1.25rem' },
+fontFamily: { display:['Pretendard','Inter'], sans:['Inter','sans-serif'] }
+```
 
 ---
 
-## 🗓️ **Launch Sequence**
+## ✨ Outcome
 
-**Phase 1 (2–3 weeks)**
+A **vivid yet calm healthcare brand site** — blending Korean design elegance and Apple-style energy.
+Every section feels alive, clean, and compassionate, guiding users naturally toward **booking care, understanding services, and trusting the brand**.
 
-1. Build Home | Programs | Services | Contact
-2. Integrate WhatsApp deep links
-3. Add Blog + Gallery CMS
-4. QA responsive design
-5. Deploy to Vercel → connect domain
-6. Submit to Google Search Console
-
-**Phase 2 (later)**
-
-* Add Client Portal / Dashboard
-* Add Online Booking & Payments
-* Automate reminder messages from WhatsApp API
+> **“We take care of those who you care for — through clarity, color, and compassion.”**
 
 ---
 
-**Outcome:**
-A smooth, trustworthy, lightweight website that clearly shows I-Medic’s value:
-
-> “Every Bangladeshi family can access complete health and care services through one simple, connected system.”
-
-globs:
-alwaysApply: true
----
