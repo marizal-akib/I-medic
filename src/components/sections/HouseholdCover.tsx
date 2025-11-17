@@ -5,7 +5,7 @@ import { UsersIcon } from '@heroicons/react/24/outline'
 
 export default function HouseholdCover() {
   return (
-    <section id="household" className="py-20 sm:py-28 bg-teal-50">
+    <section id="household" className="py-20 sm:py-28 bg-gradient-to-b from-white to-green-50/20">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <motion.div 
           className="mx-auto max-w-3xl text-center"

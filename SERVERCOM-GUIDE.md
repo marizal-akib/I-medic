@@ -458,3 +458,7 @@ For questions about serverCom.ts:
 - Review the inline comments in the file
 - Test each service function individually
 - Check Supabase documentation for API details
+
+
+
+

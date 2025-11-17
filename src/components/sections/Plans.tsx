@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
@@ -61,93 +62,143 @@ const carePrograms = {
 };
 
 export default function Plans() {
+  const [activeTab, setActiveTab] = useState<'smart' | 'active' | 'total'>('smart')
+
+  const tabs = [
+    { id: 'smart' as const, name: 'SmartCare', color: 'purple', activeBg: '#8B3FD8' },
+    { id: 'active' as const, name: 'ActiveCare', color: 'blue', activeBg: '#3D7AC5' },
+    { id: 'total' as const, name: 'TotalCare', color: 'green', activeBg: '#229954' },
+  ]
+
   return (
-    <section id="plans" className="py-20 sm:py-28 bg-gray-50">
+    <section id="plans" className="py-20 sm:py-32 bg-gradient-to-b from-white to-blue-50/20">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="mx-auto max-w-4xl text-center">
-          <h2 className="text-3xl font-bold tracking-tight text-brand-ink sm:text-4xl font-display">
+        {/* Header */}
+        <motion.div 
+          className="mx-auto max-w-3xl text-center mb-16"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.6 }}
+        >
+          <h2 className="text-4xl sm:text-5xl font-bold tracking-tight text-slate-900 font-display mb-6">
             Our Care Programs
           </h2>
-        </div>
+          <p className="text-xl text-slate-600 leading-relaxed">
+            Flexible plans designed to match your family's unique healthcare needs.
+          </p>
+        </motion.div>
         
-        <div className="mt-16 space-y-16">
-          {/* SmartCare */}
-          <motion.div 
-            className="p-8 bg-white rounded-2xl shadow-lg border border-gray-200"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.5 }}
-            transition={{ duration: 0.6 }}
-          >
-            <h3 className="text-2xl font-bold text-brand-ink font-display">{carePrograms.smartCare.name}</h3>
-            <div className="flex items-baseline gap-x-2 mt-4">
-              <span className="text-4xl font-bold tracking-tight text-brand-ink">{carePrograms.smartCare.monthly}</span>
-              <span className="text-sm font-semibold leading-6 tracking-wide text-gray-600">/month</span>
-            </div>
-            <p className="mt-1 text-sm text-gray-500">Signup: {carePrograms.smartCare.signup}</p>
-            <ul role="list" className="mt-6 space-y-3 text-sm text-brand-ink80">
-              {carePrograms.smartCare.features.map((feature) => (
-                <li key={feature} className="flex gap-x-3">
-                  <CheckIcon className="h-5 w-5 flex-none text-teal-500" aria-hidden="true" />
-                  <span>{feature}</span>
-                </li>
-              ))}
-            </ul>
-            <Button asChild className="w-full mt-8">
-              <Link href="https://wa.me/8801234567890" target="_blank">Get Started with SmartCare</Link>
-            </Button>
-          </motion.div>
-
-          {/* ActiveCare */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.5 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-          >
-            <h3 className="text-2xl font-bold text-brand-ink font-display text-center mb-8">{carePrograms.activeCare.name}</h3>
-            <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
-              {carePrograms.activeCare.plans.map((plan) => (
-                <div key={plan.name} className="flex flex-col rounded-2xl bg-white p-8 shadow-md border border-gray-100">
-                  <h4 className="text-xl font-bold text-brand-ink font-display">{plan.name}</h4>
-                  <p className="mt-2 font-semibold text-brand-ink80">{plan.price}</p>
-                  <p className="mt-4 text-sm text-brand-ink80">{plan.details}</p>
-                  <div className="mt-6 flex-grow flex items-end">
-                    <Button asChild className="w-full" variant="secondary">
-                      <Link href="https://wa.me/8801234567890" target="_blank">Book {plan.name}</Link>
-                    </Button>
-                  </div>
-                </div>
-              ))}
-            </div>
-            <p className="mt-8 text-center text-sm text-gray-600">{carePrograms.activeCare.footer}</p>
-          </motion.div>
-
-          {/* TotalCare */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.5 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-          >
-            <h3 className="text-2xl font-bold text-brand-ink font-display text-center mb-8">{carePrograms.totalCare.name}</h3>
-            <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
-              {carePrograms.totalCare.plans.map((plan) => (
-                <div key={plan.name} className="flex flex-col rounded-2xl bg-white p-8 shadow-md border border-gray-100">
-                  <h4 className="text-xl font-bold text-brand-ink font-display">{plan.name}</h4>
-                  <p className="mt-2 font-semibold text-brand-ink80">{plan.price}</p>
-                  <p className="mt-4 text-sm text-brand-ink80">{plan.details}</p>
-                   <div className="mt-6 flex-grow flex items-end">
-                    <Button asChild className="w-full" variant="secondary">
-                      <Link href="https://wa.me/8801234567890" target="_blank">Discuss {plan.name}</Link>
-                    </Button>
-                  </div>
-                </div>
-              ))}
-            </div>
-            <p className="mt-8 text-center text-sm text-gray-600">{carePrograms.totalCare.footer}</p>
-          </motion.div>
+        {/* Tabs */}
+        <div className="flex justify-center mb-12">
+          <div className="inline-flex rounded-2xl bg-white p-1.5 shadow-md border border-slate-100">
+            {tabs.map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`px-6 py-3 rounded-xl text-sm font-semibold transition-all duration-200 ${
+                  activeTab === tab.id
+                    ? 'text-white shadow-md'
+                    : 'text-slate-600 hover:text-slate-900'
+                }`}
+                style={activeTab === tab.id ? { backgroundColor: tab.activeBg } : {}}
+              >
+                {tab.name}
+              </button>
+            ))}
+          </div>
         </div>
+
+        {/* Tab Content */}
+        <motion.div
+          key={activeTab}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+        >
+          {/* SmartCare Content */}
+          {activeTab === 'smart' && (
+            <div className="max-w-3xl mx-auto">
+              <div className="p-8 bg-white rounded-3xl shadow-lg border border-purple-100">
+                <div className="text-center mb-6">
+                  <h3 className="text-2xl font-bold text-slate-900 font-display mb-2">
+                    {carePrograms.smartCare.name}
+                  </h3>
+                  <div className="flex items-baseline justify-center gap-x-2 mt-4">
+                    <span className="text-5xl font-bold tracking-tight text-slate-900">
+                      {carePrograms.smartCare.monthly}
+                    </span>
+                    <span className="text-base font-semibold text-slate-600">/month</span>
+                  </div>
+                  <p className="mt-2 text-sm text-slate-500">One-time signup: {carePrograms.smartCare.signup}</p>
+                </div>
+                
+                <ul role="list" className="mt-8 space-y-4">
+                  {carePrograms.smartCare.features.map((feature) => (
+                    <li key={feature} className="flex gap-x-3">
+                      <CheckIcon className="h-6 w-6 flex-none text-brand-purple-500" />
+                      <span className="text-slate-600 leading-relaxed">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+                
+                <Button asChild className="w-full mt-8" variant="purple">
+                  <Link href="https://wa.me/8801234567890" target="_blank">
+                    Get Started with SmartCare
+                  </Link>
+                </Button>
+              </div>
+            </div>
+          )}
+
+          {/* ActiveCare Content */}
+          {activeTab === 'active' && (
+            <div>
+              <h3 className="text-2xl font-bold text-slate-900 font-display text-center mb-8">
+                {carePrograms.activeCare.name}
+              </h3>
+              <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+                {carePrograms.activeCare.plans.map((plan) => (
+                  <div key={plan.name} className="flex flex-col rounded-3xl bg-white p-8 shadow-md border border-blue-100 hover:shadow-lg transition-all duration-300">
+                    <h4 className="text-xl font-bold text-slate-900 font-display">{plan.name}</h4>
+                    <p className="mt-3 text-2xl font-bold text-brand-blue-600">{plan.price}</p>
+                    <p className="mt-4 text-slate-600 leading-relaxed flex-grow">{plan.details}</p>
+                    <Button asChild className="w-full mt-6" variant="blue">
+                      <Link href="https://wa.me/8801234567890" target="_blank">
+                        Book {plan.name}
+                      </Link>
+                    </Button>
+                  </div>
+                ))}
+              </div>
+              <p className="mt-8 text-center text-slate-600">{carePrograms.activeCare.footer}</p>
+            </div>
+          )}
+
+          {/* TotalCare Content */}
+          {activeTab === 'total' && (
+            <div>
+              <h3 className="text-2xl font-bold text-slate-900 font-display text-center mb-8">
+                {carePrograms.totalCare.name}
+              </h3>
+              <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+                {carePrograms.totalCare.plans.map((plan) => (
+                  <div key={plan.name} className="flex flex-col rounded-3xl bg-white p-8 shadow-md border border-green-100 hover:shadow-lg transition-all duration-300">
+                    <h4 className="text-xl font-bold text-slate-900 font-display">{plan.name}</h4>
+                    <p className="mt-3 text-2xl font-bold text-brand-green-600">{plan.price}</p>
+                    <p className="mt-4 text-slate-600 leading-relaxed flex-grow">{plan.details}</p>
+                    <Button asChild className="w-full mt-6" variant="green">
+                      <Link href="https://wa.me/8801234567890" target="_blank">
+                        Discuss {plan.name}
+                      </Link>
+                    </Button>
+                  </div>
+                ))}
+              </div>
+              <p className="mt-8 text-center text-slate-600">{carePrograms.totalCare.footer}</p>
+            </div>
+          )}
+        </motion.div>
       </div>
     </section>
   )

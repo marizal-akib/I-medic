@@ -2,14 +2,8 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   /* config options here */
-  webpack: (config, { isServer }) => {
-    // Exclude demo folder from build
-    config.watchOptions = {
-      ...config.watchOptions,
-      ignored: ['**/node_modules/**', '**/demo/**', '**/.git/**'],
-    }
-    return config
-  },
+  // Note: Turbopack automatically ignores node_modules, .git, and .next folders
+  // No need for webpack watch configuration when using --turbopack flag
 };
 
 export default nextConfig;

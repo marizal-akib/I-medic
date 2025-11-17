@@ -1,4 +1,4 @@
-import Hero from '@/components/sections/hero'
+import AnimatedHero from '@/components/sections/animated-hero'
 import Why from '@/components/sections/why'
 import Services from '@/components/sections/services'
 import Plans from '@/components/sections/Plans'
@@ -12,7 +12,7 @@ import Contact from '@/components/sections/contact'
 export default function Home() {
   return (
     <>
-      <Hero />
+      <AnimatedHero />
       <Why />
       <Services />
       <Plans />

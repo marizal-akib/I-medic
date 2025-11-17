@@ -304,3 +304,7 @@ For Supabase-related issues:
 For I-Medic specific issues:
 - Contact your development team
 - Check the serverCom.ts file for all server interaction functions
+
+
+
+

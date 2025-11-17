@@ -147,3 +147,7 @@ BEGIN
   RAISE NOTICE '3. Test user registration at http://localhost:3000/register';
 END $$;
 
+
+
+
+
