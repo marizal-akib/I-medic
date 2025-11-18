@@ -13,7 +13,10 @@ export default function Navbar() {
   const { user, signOut } = useAuth()
 
   // Hide navbar on login and register pages
-  const hideNavbar = pathname === '/login' || pathname === '/register'
+  const hideNavbar =
+    pathname === '/login' ||
+    pathname === '/register' ||
+    pathname?.startsWith('/dashboard')
 
   useEffect(() => {
     const handleScroll = () => {
