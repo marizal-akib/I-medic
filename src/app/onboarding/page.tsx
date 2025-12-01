@@ -1,8 +1,8 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useAuth } from '@/hooks/useAuth'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { ProtectedRoute } from '@/components/auth/protected-route'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -17,22 +17,25 @@ const profileSchema = z.object({
 })
 
 const contactSchema = z.object({
-  phone: z.string().trim().min(10, 'Valid phone number is required').max(20),
-  address_street: z.string().trim().max(200),
-  address_city: z.string().trim().max(100),
-  address_district: z.string().trim().max(50),
+  phone: z.string().trim().min(10, 'Valid phone number is required').max(20).optional(),
+  address_street: z.string().trim().max(200).optional(),
+  address_city: z.string().trim().max(100).optional(),
+  address_district: z.string().trim().max(50).optional(),
 })
 
 const medicalSchema = z.object({
-  dob: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Date must be in YYYY-MM-DD format'),
+  dob: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Date must be in YYYY-MM-DD format').optional(),
 })
 
 function OnboardingContent() {
   const { user } = useAuth()
   const router = useRouter()
-  const [currentStep, setCurrentStep] = useState(1)
+  const searchParams = useSearchParams()
+  const initialStep = useMemo(() => Number(searchParams.get('step')) || 1, [searchParams])
+  const [currentStep, setCurrentStep] = useState(initialStep)
   const [loading, setLoading] = useState(false)
   const [consent, setConsent] = useState(false)
+  const [showSuccessModal, setShowSuccessModal] = useState(false)
 
   // Profile step
   const [firstName, setFirstName] = useState('')
@@ -69,9 +72,53 @@ function OnboardingContent() {
           setAddressCity(addr.city || '')
           setAddressDistrict(addr.district || '')
         }
+
+        if (data.preferences_completion === 100 || data.onboarding_status === 'submitted') {
+          setConsent(true)
+        }
       }
     } catch (error) {
       console.error('Error loading patient data:', error)
+    }
+  }
+
+  const buildAddressPayload = () =>
+    addressStreet || addressCity || addressDistrict
+      ? { street: addressStreet, city: addressCity, district: addressDistrict }
+      : null
+
+  const computeProgress = (extra: any = {}) => {
+    const draft = {
+      first_name: firstName || null,
+      last_name: lastName || null,
+      phone: phone || null,
+      dob: dob || null,
+      address: buildAddressPayload(),
+      preferences_completion: consent ? 100 : 0,
+      ...extra,
+    }
+    const progress = patientService.computeOnboardingProgress(draft)
+
+    return { draft, progress }
+  }
+
+  const updatePatientWithProgress = async (overrides: any = {}) => {
+    const { draft, progress } = computeProgress(overrides)
+
+    await patientService.updatePatient(user!.id, {
+      ...draft,
+      basic_info_completed: progress.basicInfoCompleted,
+      health_profile_completion: progress.healthProfileCompletion,
+      preferences_completion: progress.preferencesCompletion,
+      overall_onboarding_completion: progress.overall,
+      onboarding_status: progress.onboardingStatus,
+      onboarding_completed: progress.overall === 100,
+    })
+
+    if (progress.overall === 100) {
+      setShowSuccessModal(true)
+    } else {
+      router.push('/dashboard')
     }
   }
 
@@ -79,13 +126,15 @@ function OnboardingContent() {
     setLoading(true)
     try {
       const validated = profileSchema.parse({ first_name: firstName, last_name: lastName })
-      
-      await patientService.updatePatient(user!.id, {
+
+      setFirstName(validated.first_name)
+      setLastName(validated.last_name)
+
+      await updatePatientWithProgress({
         first_name: validated.first_name,
         last_name: validated.last_name,
+        onboarding_status: 'in_progress',
       })
-
-      setCurrentStep(2)
     } catch (err) {
       if (err instanceof z.ZodError) {
         alert(err.issues[0].message)
@@ -101,22 +150,21 @@ function OnboardingContent() {
     setLoading(true)
     try {
       const validated = contactSchema.parse({
-        phone,
-        address_street: addressStreet,
-        address_city: addressCity,
-        address_district: addressDistrict,
+        phone: phone || undefined,
+        address_street: addressStreet || undefined,
+        address_city: addressCity || undefined,
+        address_district: addressDistrict || undefined,
       })
 
-      await patientService.updatePatient(user!.id, {
+      await updatePatientWithProgress({
         phone: validated.phone,
         address: {
           street: validated.address_street,
           city: validated.address_city,
           district: validated.address_district,
         },
+        onboarding_status: 'in_progress',
       })
-
-      setCurrentStep(3)
     } catch (err) {
       if (err instanceof z.ZodError) {
         alert(err.issues[0].message)
@@ -131,10 +179,9 @@ function OnboardingContent() {
   const saveMedical = async () => {
     setLoading(true)
     try {
-      const validated = medicalSchema.parse({ dob })
+      const validated = medicalSchema.parse({ dob: dob || undefined })
 
-      await patientService.updatePatient(user!.id, { dob: validated.dob })
-      setCurrentStep(4)
+      await updatePatientWithProgress({ dob: validated.dob, onboarding_status: 'in_progress' })
     } catch (err) {
       if (err instanceof z.ZodError) {
         alert(err.issues[0].message)
@@ -147,16 +194,15 @@ function OnboardingContent() {
   }
 
   const completeOnboarding = async () => {
-    if (!consent) {
-      alert('Please accept the terms and conditions')
-      return
-    }
-
     setLoading(true)
     try {
-      await patientService.completeOnboarding(user!.id)
-      alert('Onboarding completed! Welcome to I-Medic.')
-      router.push('/dashboard')
+      await updatePatientWithProgress({
+        preferences_completion: consent ? 100 : 0,
+        onboarding_status: consent ? 'submitted' : 'in_progress',
+      })
+      if (!consent) {
+        router.push('/dashboard')
+      }
     } catch (error) {
       alert('Failed to complete onboarding')
     } finally {
@@ -164,11 +210,32 @@ function OnboardingContent() {
     }
   }
 
+  const skipHealthProfile = async () => {
+    setLoading(true)
+    try {
+      await updatePatientWithProgress({ health_profile_completion: 0 })
+    } catch (error) {
+      alert('Failed to skip this step')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const skipConsent = async () => {
+    setLoading(true)
+    try {
+      await updatePatientWithProgress({ preferences_completion: 0, onboarding_status: 'in_progress' })
+    } catch (error) {
+      alert('Failed to skip this step')
+    } finally {
+      setLoading(false)
+    }
+  }
+
   const steps = [
-    { number: 1, title: 'Profile', completed: currentStep > 1 },
-    { number: 2, title: 'Contact', completed: currentStep > 2 },
-    { number: 3, title: 'Medical', completed: currentStep > 3 },
-    { number: 4, title: 'Consent', completed: currentStep > 4 },
+    { number: 1, title: 'Basic Info', completed: currentStep > 1 },
+    { number: 2, title: 'Health Profile', completed: currentStep > 2 },
+    { number: 3, title: 'Preferences', completed: currentStep > 3 },
   ]
 
   return (
@@ -217,7 +284,7 @@ function OnboardingContent() {
               <div className="space-y-6">
                 <div>
                   <CardHeader className="px-0 pt-0">
-                    <CardTitle>Personal Information</CardTitle>
+                    <CardTitle>Basic Information</CardTitle>
                     <CardDescription>Tell us about yourself</CardDescription>
                   </CardHeader>
                 </div>
@@ -250,7 +317,7 @@ function OnboardingContent() {
                   </div>
                 </div>
                 <Button onClick={saveProfile} className="w-full" disabled={loading}>
-                  {loading ? 'Saving...' : 'Next: Contact Information'}
+                  {loading ? 'Saving...' : 'Save & Continue'}
                 </Button>
               </div>
             )}
@@ -260,14 +327,14 @@ function OnboardingContent() {
               <div className="space-y-6">
                 <div>
                   <CardHeader className="px-0 pt-0">
-                    <CardTitle>Contact Information</CardTitle>
-                    <CardDescription>How can we reach you?</CardDescription>
+                    <CardTitle>Health Profile</CardTitle>
+                    <CardDescription>Share contact and health basics (optional)</CardDescription>
                   </CardHeader>
                 </div>
                 <div className="space-y-4">
                   <div>
                     <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
-                      Phone Number *
+                      Phone Number
                     </label>
                     <input
                       id="phone"
@@ -276,7 +343,6 @@ function OnboardingContent() {
                       onChange={(e) => setPhone(e.target.value)}
                       placeholder="+880 1XXX XXXXXX"
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
-                      required
                     />
                   </div>
                   <div>
@@ -312,117 +378,103 @@ function OnboardingContent() {
                         id="district"
                         type="text"
                         value={addressDistrict}
-                        onChange={(e) => setAddressDistrict(e.target.value)}
-                        placeholder="e.g., Dhaka"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className="flex gap-3">
-                  <Button variant="outline" onClick={() => setCurrentStep(1)} className="flex-1">
-                    Back
-                  </Button>
-                  <Button onClick={saveContact} className="flex-1" disabled={loading}>
-                    {loading ? 'Saving...' : 'Next: Medical Info'}
-                  </Button>
-                </div>
-              </div>
-            )}
-
-            {/* Step 3: Medical */}
-            {currentStep === 3 && (
-              <div className="space-y-6">
-                <div>
-                  <CardHeader className="px-0 pt-0">
-                    <CardTitle>Medical Information</CardTitle>
-                    <CardDescription>Help us understand your health needs</CardDescription>
-                  </CardHeader>
-                </div>
-                <div className="space-y-4">
-                  <div>
-                    <label htmlFor="dob" className="block text-sm font-medium text-gray-700 mb-2">
-                      Date of Birth *
-                    </label>
-                    <input
-                      id="dob"
-                      type="date"
-                      value={dob}
-                      onChange={(e) => setDob(e.target.value)}
+                      onChange={(e) => setAddressDistrict(e.target.value)}
+                      placeholder="e.g., Dhaka"
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
-                      required
                     />
                   </div>
                 </div>
-                <div className="flex gap-3">
-                  <Button variant="outline" onClick={() => setCurrentStep(2)} className="flex-1">
-                    Back
-                  </Button>
-                  <Button onClick={saveMedical} className="flex-1" disabled={loading}>
-                    {loading ? 'Saving...' : 'Next: Consent'}
-                  </Button>
-                </div>
               </div>
-            )}
+              <div className="flex gap-3">
+                <Button variant="outline" onClick={() => setCurrentStep(1)} className="flex-1">
+                  Back
+                </Button>
+                <Button onClick={saveContact} className="flex-1" disabled={loading}>
+                  {loading ? 'Saving...' : 'Save & Continue'}
+                </Button>
+              </div>
+              <Button variant="ghost" onClick={skipHealthProfile} className="w-full" disabled={loading}>
+                Skip for now
+              </Button>
+            </div>
+          )}
 
-            {/* Step 4: Consent */}
-            {currentStep === 4 && (
-              <div className="space-y-6">
+          {/* Step 3: Preferences & Consent */}
+          {currentStep === 3 && (
+            <div className="space-y-6">
+              <div>
+                <CardHeader className="px-0 pt-0">
+                  <CardTitle>Preferences & Consent</CardTitle>
+                  <CardDescription>Review our terms and finish setup (optional)</CardDescription>
+                </CardHeader>
+              </div>
+              <div className="space-y-4">
                 <div>
-                  <CardHeader className="px-0 pt-0">
-                    <CardTitle>Terms & Consent</CardTitle>
-                    <CardDescription>Review and accept our terms</CardDescription>
-                  </CardHeader>
-                </div>
-                <div className="space-y-4">
-                  <div className="p-4 bg-gray-50 rounded-lg text-sm text-gray-600 max-h-64 overflow-y-auto">
-                    <h4 className="font-semibold text-gray-900 mb-2">Patient Portal Terms of Service</h4>
-                    <p className="mb-3">
-                      By using the I-Medic patient portal, you consent to the collection, storage, and use 
-                      of your personal health information for the purpose of providing healthcare services.
-                    </p>
-                    <p className="mb-3">
-                      <strong>Data Protection:</strong> Your data is protected under Bangladesh ICT Act 
-                      and international data protection standards. We use encryption and secure protocols 
-                      to safeguard your information.
-                    </p>
-                    <p className="mb-3">
-                      <strong>Information Sharing:</strong> Your health information will only be shared 
-                      with authorized healthcare providers directly involved in your care.
-                    </p>
-                    <p>
-                      <strong>Your Rights:</strong> You have the right to access, update, and delete 
-                      your personal information at any time through your patient portal.
-                    </p>
-                  </div>
-                  <div className="flex items-start space-x-3">
-                    <input
-                      type="checkbox"
-                      id="consent"
-                      checked={consent}
-                      onChange={(e) => setConsent(e.target.checked)}
-                      className="mt-1 h-4 w-4 text-teal-600 border-gray-300 rounded focus:ring-teal-500"
-                    />
-                    <label htmlFor="consent" className="text-sm text-gray-700 cursor-pointer">
-                      I have read and agree to the terms and conditions, and I consent to the 
-                      collection and use of my personal health information as described above.
-                    </label>
-                  </div>
-                </div>
-                <div className="flex gap-3">
-                  <Button variant="outline" onClick={() => setCurrentStep(3)} className="flex-1">
-                    Back
+                  <label htmlFor="dob" className="block text-sm font-medium text-gray-700 mb-2">
+                    Date of Birth
+                  </label>
+                  <input
+                    id="dob"
+                    type="date"
+                    value={dob}
+                    onChange={(e) => setDob(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                  />
+                  <Button onClick={saveMedical} className="mt-3" disabled={loading}>
+                    {loading ? 'Saving...' : 'Save DOB'}
                   </Button>
-                  <Button 
-                    onClick={completeOnboarding} 
-                    disabled={!consent || loading} 
-                    className="flex-1"
-                  >
-                    {loading ? 'Completing...' : 'Complete Onboarding'}
-                  </Button>
+                </div>
+                <div className="p-4 bg-gray-50 rounded-lg text-sm text-gray-600 max-h-64 overflow-y-auto">
+                  <h4 className="font-semibold text-gray-900 mb-2">Patient Portal Terms of Service</h4>
+                  <p className="mb-3">
+                    By using the I-Medic patient portal, you consent to the collection, storage, and use 
+                    of your personal health information for the purpose of providing healthcare services.
+                  </p>
+                  <p className="mb-3">
+                    <strong>Data Protection:</strong> Your data is protected under Bangladesh ICT Act 
+                    and international data protection standards. We use encryption and secure protocols 
+                    to safeguard your information.
+                  </p>
+                  <p className="mb-3">
+                    <strong>Information Sharing:</strong> Your health information will only be shared 
+                    with authorized healthcare providers directly involved in your care.
+                  </p>
+                  <p>
+                    <strong>Your Rights:</strong> You have the right to access, update, and delete 
+                    your personal information at any time through your patient portal.
+                  </p>
+                </div>
+                <div className="flex items-start space-x-3">
+                  <input
+                    type="checkbox"
+                    id="consent"
+                    checked={consent}
+                    onChange={(e) => setConsent(e.target.checked)}
+                    className="mt-1 h-4 w-4 text-teal-600 border-gray-300 rounded focus:ring-teal-500"
+                  />
+                  <label htmlFor="consent" className="text-sm text-gray-700 cursor-pointer">
+                    I have read and agree to the terms and conditions, and I consent to the 
+                    collection and use of my personal health information as described above.
+                  </label>
                 </div>
               </div>
-            )}
+              <div className="flex gap-3">
+                <Button variant="outline" onClick={() => setCurrentStep(2)} className="flex-1">
+                  Back
+                </Button>
+                <Button 
+                  onClick={completeOnboarding} 
+                  disabled={loading || (!consent && !showSuccessModal)} 
+                  className="flex-1"
+                >
+                  {loading ? 'Completing...' : 'Complete Setup'}
+                </Button>
+              </div>
+              <Button variant="ghost" onClick={skipConsent} className="w-full" disabled={loading}>
+                Skip for now
+              </Button>
+            </div>
+          )}
           </CardContent>
         </Card>
 
@@ -430,6 +482,25 @@ function OnboardingContent() {
         <p className="text-center text-sm text-gray-500 mt-6">
           Need help? <Link href="/contact" className="text-teal-600 hover:text-teal-700">Contact our support team</Link>
         </p>
+
+        {showSuccessModal && (
+          <div className="fixed inset-0 bg-black/40 flex items-center justify-center p-4">
+            <div className="bg-white rounded-2xl shadow-2xl max-w-sm w-full p-6 space-y-4">
+              <div className="flex items-center gap-3">
+                <div className="h-12 w-12 rounded-full bg-teal-100 text-teal-700 flex items-center justify-center">
+                  <CheckCircle2 className="h-7 w-7" />
+                </div>
+                <div>
+                  <p className="text-lg font-semibold text-gray-900">Profile Complete</p>
+                  <p className="text-sm text-gray-600">Your onboarding is submitted.</p>
+                </div>
+              </div>
+              <Button className="w-full" onClick={() => router.push('/dashboard')}>
+                Go to dashboard
+              </Button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   )

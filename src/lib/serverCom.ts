@@ -71,7 +71,41 @@ export interface PatientData {
   phone: string | null
   dob: string | null
   address: any | null
+  basic_info_completed: boolean | null
+  health_profile_completion: number | null
+  preferences_completion: number | null
+  overall_onboarding_completion: number | null
+  onboarding_status: 'not_started' | 'in_progress' | 'submitted' | 'approved' | null
   onboarding_completed: boolean | null
+}
+
+const computeOnboardingProgress = (patient: Partial<PatientData>) => {
+  const basicInfoCompleted = Boolean(patient.first_name && patient.last_name)
+  const healthFields = [patient.phone, patient.dob, patient.address]
+  const healthProfileCompletion =
+    typeof patient.health_profile_completion === 'number'
+      ? patient.health_profile_completion
+      : Math.round((healthFields.filter(Boolean).length / healthFields.length) * 100)
+  const preferencesCompletion =
+    typeof patient.preferences_completion === 'number'
+      ? patient.preferences_completion
+      : patient.onboarding_status === 'submitted'
+        ? 100
+        : 0
+  const overall = Math.min(
+    100,
+    Math.round(((basicInfoCompleted ? 100 : 0) + healthProfileCompletion + preferencesCompletion) / 3),
+  )
+  const onboardingStatus =
+    overall === 100 ? 'submitted' : basicInfoCompleted ? 'in_progress' : 'not_started'
+
+  return {
+    basicInfoCompleted,
+    healthProfileCompletion,
+    preferencesCompletion,
+    overall,
+    onboardingStatus,
+  }
 }
 
 export const patientService = {
@@ -131,6 +165,8 @@ export const patientService = {
     })
     return (complete / fields.length) * 100
   },
+
+  computeOnboardingProgress,
 }
 
 // ============================================
@@ -674,7 +710,6 @@ export default {
   profile: profileService,
   utils,
 }
-
 
 
 

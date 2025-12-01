@@ -37,6 +37,11 @@ export interface Database {
           phone: string | null
           dob: string | null
           address: any | null
+          basic_info_completed: boolean | null
+          health_profile_completion: number | null
+          preferences_completion: number | null
+          overall_onboarding_completion: number | null
+          onboarding_status: 'not_started' | 'in_progress' | 'submitted' | 'approved' | null
           onboarding_completed: boolean | null
         }
         Insert: {
@@ -46,6 +51,11 @@ export interface Database {
           phone?: string | null
           dob?: string | null
           address?: any | null
+          basic_info_completed?: boolean | null
+          health_profile_completion?: number | null
+          preferences_completion?: number | null
+          overall_onboarding_completion?: number | null
+          onboarding_status?: 'not_started' | 'in_progress' | 'submitted' | 'approved' | null
           onboarding_completed?: boolean | null
         }
         Update: {
@@ -55,6 +65,11 @@ export interface Database {
           phone?: string | null
           dob?: string | null
           address?: any | null
+          basic_info_completed?: boolean | null
+          health_profile_completion?: number | null
+          preferences_completion?: number | null
+          overall_onboarding_completion?: number | null
+          onboarding_status?: 'not_started' | 'in_progress' | 'submitted' | 'approved' | null
           onboarding_completed?: boolean | null
         }
       }
